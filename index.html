@@ -7,38 +7,76 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-    body, html {
+    html, body {
       margin: 0; padding: 0;
-      height: 100%;
+      width: 100%; height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(135deg, #f8f0ff, #e0f7fa);
       overflow: hidden;
-      flex-direction: column;
+      position: relative;
       text-align: center;
     }
 
-    #loader-container { opacity: 1; transition: opacity 0.5s ease; }
+    #loader-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      max-width: 700px;
+      padding: 20px;
+    }
 
-    h1 { margin-bottom: 15px; color: #007bff; font-weight: 700; font-size: 3rem; }
-    h2 { margin-bottom: 25px; color: #555; font-weight: 400; font-size: 1.3rem; }
+    h1 {
+      color: #007bff;
+      font-weight: 700;
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    h2 {
+      color: #555;
+      font-weight: 400;
+      font-size: 1.3rem;
+      margin: 0;
+    }
 
     .loader-circle {
+      width: 80px; height: 80px;
       border: 8px solid #ddd;
       border-top: 8px solid #007bff;
       border-radius: 50%;
-      width: 80px; height: 80px;
       animation: spin 1s linear infinite;
-      margin-bottom: 30px;
     }
-    @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
 
-    .messages { font-size: 1.5rem; color: #333; max-width: 600px; margin-bottom: 30px; }
-    .tip { font-size: 1rem; color: #555; font-style: italic; margin-top: 15px; }
+    .messages {
+      font-size: 1.5rem;
+      color: #333;
+      max-width: 600px;
+    }
 
-    .floating { position: absolute; border-radius: 50%; opacity: 0.2; background: #007bff; animation: float 20s linear infinite; }
+    .tip {
+      font-size: 1rem;
+      color: #555;
+      font-style: italic;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .floating {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.2;
+      background: #007bff;
+      animation: float 20s linear infinite;
+    }
+
     @keyframes float {
       0% { transform: translateY(0) translateX(0) rotate(0deg); }
       50% { transform: translateY(-50px) translateX(30px) rotate(180deg); }
@@ -46,26 +84,28 @@
     }
 
     @media (max-width: 768px) {
-      h1 { font-size: 2rem; } h2 { font-size: 1rem; margin-bottom: 20px; }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1rem; }
       .loader-circle { width: 60px; height: 60px; border-width: 6px; }
-      .messages { font-size: 1.1rem; max-width: 300px; margin-bottom: 25px; }
+      .messages { font-size: 1.1rem; max-width: 300px; }
       .tip { font-size: 0.9rem; }
     }
+
     @media (max-width: 480px) {
-      h1 { font-size: 1.5rem; } h2 { font-size: 0.9rem; margin-bottom: 15px; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 0.9rem; }
       .loader-circle { width: 50px; height: 50px; border-width: 5px; }
-      .messages { font-size: 1rem; max-width: 250px; margin-bottom: 20px; }
+      .messages { font-size: 1rem; max-width: 250px; }
       .tip { font-size: 0.8rem; }
     }
+
   </style>
 </head>
 <body>
   <div id="loader-container">
     <h1>Welcome to Pawfect Hearts</h1>
     <h2>Your trusted platform for dog adoption, lost & found, and blood donation</h2>
-
     <div class="loader-circle"></div>
-
     <div class="messages" id="messages">Preparing your professional experience...</div>
     <div class="tip" id="tip">🐾 Wagging tails are on the way!</div>
   </div>
@@ -113,19 +153,15 @@
     function checkServer() {
       const img = new Image();
       img.onload = function() {
-
         const loader = document.getElementById("loader-container");
         loader.style.opacity = 0;
         setTimeout(() => { window.location.href = RENDER_BASE + REDIRECT_PATH; }, 500);
       };
       img.onerror = function() {
-
         setTimeout(checkServer, 3000);
       };
-
       img.src = RENDER_BASE + PING_PATH + "?ts=" + Date.now();
     }
-
     checkServer();
   </script>
 </body>
